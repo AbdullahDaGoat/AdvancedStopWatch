@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" type="text/css" media="all" />
+    <title>Stopwatch</title>
+</head>
+
+<body>
+    <div class="title">
+        <h1>Stopwatch</h1>
+    </div>
+    <div class="stopwatch">
+        <div class="container">
+            <div class="time" id="time">00:00:00</div>
+            <div class="buttons">
+                <div class="start-btn">
+                    <button class="start" id="start">Start</button>
+                </div>
+                <div class="stop-btn">
+                    <button class="stop" id="stop">Stop</button>
+                </div>
+                <div class="reset-btn">
+                    <button class="reset" id="reset">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="preferences">
+        <button id="clear-preferences" class="clear-preferences"> 🗑️ Clear Preferences</button>
+    </div>
+
+
+    <div id="reset-popup" class="reset-popup">
+        <div class="popup-content">
+            <h3>Reset Confirmation</h3>
+            <p>Are you sure you want to reset the stopwatch?</p>
+            <div class="popup-buttons">
+                <button id="reset-confirm" class="popup-button">Reset</button>
+                <button id="reset-cancel" class="popup-button">Cancel</button>
+            </div>
+            <label for="remember-choice">
+                <input type="checkbox" id="remember-choice" />
+                Remember my choice
+            </label>
+        </div>
+    </div>
+
+    <div id="clear-preferences-popup" class="clear-preferences-popup">
+        <div class="popup-content">
+            <h3>Clear Preferences Confirmation</h3>
+            <p>Are you sure you want to clear all preferences?</p>
+            <div class="popup-buttons">
+                <button id="clear-preferences-confirm" class="popup-button">Clear</button>
+                <button id="clear-preferences-cancel" class="popup-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js" type="text/javascript" async></script>
+</body>
+
+</html>
