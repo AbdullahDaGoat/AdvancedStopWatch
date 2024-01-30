@@ -93,8 +93,6 @@ const performReset = () => {
 
   // Remove elapsed time from localStorage
   localStorage.removeItem("elapsedTime");
-
-  // Enable the clear preferences button
 };
 
 const closeResetPopup = () => {
@@ -111,7 +109,6 @@ const performClearPreferences = () => {
   shouldPromptReset = true;
   rememberChoiceCheckbox.checked = false;
   closeClearPreferencesPopup();
-  toggleElementDisable(clearPreferencesButton, true);
 };
 
 const closeClearPreferencesPopup = () => {
@@ -123,7 +120,6 @@ resetConfirmButton.addEventListener("click", () => {
   if (rememberChoiceCheckbox.checked) {
     shouldPromptReset = false;
     localStorage.setItem("shouldPromptReset", false);
-    toggleElementDisable(clearPreferencesButton, false);
   }
   closeResetPopup();
 });
@@ -153,7 +149,6 @@ const storedShouldPromptReset = localStorage.getItem("shouldPromptReset");
 if (storedShouldPromptReset === "false") {
   shouldPromptReset = false;
   rememberChoiceCheckbox.checked = true;
-  toggleElementDisable(clearPreferencesButton, false);
 }
 
 start.addEventListener("click", startTimer);
@@ -170,9 +165,3 @@ stop.addEventListener("click", () => {
 });
 reset.addEventListener("click", resetTimer);
 clearPreferencesButton.addEventListener("click", clearPreferences);
-
-// Hide the clear preferences button if there is no "Remember my choice" preference in localStorage
-if (!localStorage.getItem("shouldPromptReset")) {
-  toggleElementDisable(clearPreferencesButton, true);
-}
-
