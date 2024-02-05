@@ -22,9 +22,198 @@ h1{
     width: 100%;
     margin: auto;
 } */
+/* Theme toggle styles */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
 
+.theme-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: black;
+}
 
-.reset-popup, .clear-preferences-popup {
+.dark-theme .theme-button {
+  color: white;
+}
+.theme-button:hover {
+  color: #ccc;
+}
+
+/* Light theme styles */
+body {
+  background-color: #fff;
+  color: #000;
+}
+
+.stopwatch {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.time {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.start,
+.stop,
+.reset {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.start {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.start:hover {
+  background-color: #45a049;
+}
+
+.stop {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.stop:hover {
+  background-color: #d32f2f;
+}
+
+.reset {
+  background-color: #607d8b;
+  color: #fff;
+}
+
+.reset:hover {
+  background-color: #546e7a;
+}
+
+.preferences {
+  margin-top: 20px;
+}
+
+#clear-preferences {
+  background-color: #f44336;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#clear-preferences:hover {
+  background-color: #d32f2f;
+}
+
+/* Dark theme styles */
+.dark-theme {
+  background-color: #212121;
+  color: #fff;
+}
+
+.dark-theme .stopwatch {
+  background-color: #333;
+  border-color: #444;
+}
+
+.dark-theme .time {
+  color: #fff;
+}
+
+.dark-theme .buttons {
+  background-color: #444;
+}
+
+.dark-theme .start {
+  background-color: #4caf50;
+}
+
+.dark-theme .start:hover {
+  background-color: #45a049;
+}
+
+.dark-theme .stop {
+  background-color: #f44336;
+}
+
+.dark-theme .stop:hover {
+  background-color: #d32f2f;
+}
+
+.dark-theme .reset {
+  background-color: #607d8b;
+}
+
+.dark-theme .reset:hover {
+  background-color: #546e7a;
+}
+
+.dark-theme .preferences {
+  background-color: #333;
+}
+
+.dark-theme #clear-preferences {
+  background-color: #f44336;
+}
+
+.dark-theme #clear-preferences:hover {
+  background-color: #d32f2f;
+}
+
+/* Dropdown styles */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-content li {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Reset popup styles */
+.reset-popup,
+.clear-preferences-popup {
   display: none;
   position: fixed;
   top: 0;
@@ -56,17 +245,74 @@ h1{
   margin: 0 5px;
 }
 
-.preferences {
-  margin-top: 20px;
+/* History popup styles */
+.history-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
 }
 
-hr {
-  border: none;
-  height: 3px;
-background: radial-gradient(circle at 10% 20%, rgb(255, 200, 124) 0%, rgb(252, 251, 121) 90%);  margin: 10px 0;
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
-hr:before {
-  content: "";
-  display: block;
-  height: 3px;
-background: radial-gradient(circle at 10% 20%, rgb(255, 200, 124) 0%, rgb(252, 251, 121) 90%);}
+
+.popup-buttons {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.popup-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-button:hover {
+  background-color: #45a049;
+}
+
+.success-message {
+  color: red;
+  animation: fadeOut 100s forwards;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #999;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #666;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#history-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}

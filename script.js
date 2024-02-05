@@ -18,6 +18,24 @@ let timerId = null;
 let isRunning = false;
 let shouldPromptReset = true;
 
+// Get the dropdown element
+const dropdown = document.querySelector('.dropdown');
+// Get the dropdown content element
+const dropdownContent = document.getElementById('history');
+
+// Create an array to store the last 5 reset times
+const resetTimes = [];
+
+window.addEventListener('load', function() {
+  stop.classList.remove('hidden')
+  toggleElementDisable(stop, true);
+  const storedHistory = localStorage.getItem("history");
+  if (storedHistory) {
+    resetTimes = JSON.parse(storedHistory);
+    updateDropdownContent();
+  }
+});
+
 const toggleElementDisable = (element, disable) => {
   disable
     ? element.setAttribute("disabled", true)
@@ -29,12 +47,14 @@ const formatTime = (time) => {
   const millis = Math.floor((time % 1000) / 10);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
+  const days = Math.floor(time / (1000 * 60 * 60 * 24));
 
   const formattedSeconds = seconds % 60;
   const formattedMinutes = minutes % 60;
   const formattedHours = hours % 60;
+  const formattedDays = days % 60
 
-  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}.${millis}`;
+  return `${formattedDays}:${formattedHours}:${formattedMinutes}:${formattedSeconds}:${millis}`;
 };
 
 const startTimer = () => {
@@ -62,8 +82,6 @@ const stopTimer = () => {
 
   if (elapsedTime === 0) {
     stop.textContent = "Stop";
-  } else {
-    stop.textContent = "Reset";
   }
 
   // Save elapsed time to localStorage
@@ -81,6 +99,8 @@ const resetTimer = () => {
 const performReset = () => {
   clearInterval(timerId);
 
+  resetTimes.unshift(elapsedTime);
+
   elapsedTime = 0;
   time.textContent = formatTime(elapsedTime);
 
@@ -93,6 +113,16 @@ const performReset = () => {
 
   // Remove elapsed time from localStorage
   localStorage.removeItem("elapsedTime");
+
+  // Add the reset time to the array
+  // If there are more than 5 reset times, remove the oldest one
+  if (resetTimes.length > 5) {
+    resetTimes.pop();
+  }
+  localStorage.setItem("history", JSON.stringify(resetTimes));
+
+  // Update the dropdown content
+  updateDropdownContent();
 };
 
 const closeResetPopup = () => {
@@ -136,7 +166,6 @@ clearPreferencesCancelButton.addEventListener("click", () => {
   closeClearPreferencesPopup();
 });
 
-// Check if elapsed time is stored in localStorage
 const storedElapsedTime = localStorage.getItem("elapsedTime");
 if (storedElapsedTime) {
   elapsedTime = parseInt(storedElapsedTime);
@@ -144,7 +173,6 @@ if (storedElapsedTime) {
   toggleElementDisable(stop, true);
 }
 
-// Check if shouldPromptReset is stored in localStorage
 const storedShouldPromptReset = localStorage.getItem("shouldPromptReset");
 if (storedShouldPromptReset === "false") {
   shouldPromptReset = false;
@@ -165,3 +193,102 @@ stop.addEventListener("click", () => {
 });
 reset.addEventListener("click", resetTimer);
 clearPreferencesButton.addEventListener("click", clearPreferences);
+
+window.addEventListener("click", (event) => {
+  if (event.target === resetPopup) {
+    closeResetPopup();
+    clearPreferencesButton.style.display = "block";
+  } else if (event.target === clearPreferencesPopup) {
+    closeClearPreferencesPopup();
+    clearPreferencesButton.style.display = "block";
+  }
+});
+
+// Function to update the dropdown content
+// Get the history popup element
+const historyPopup = document.getElementById("history-popup");
+const historyList = document.getElementById("history-list");
+const clearHistoryButton = document.getElementById("clear-history");
+const successMessage = document.getElementById("success-message");
+
+// Show history popup
+dropdown.addEventListener("click", () => {
+  historyPopup.style.display = "block";
+});
+
+// Close history popup when clicked outside
+// Get the close button element
+const closeButton = document.querySelector('.close-button');
+
+// Close history popup when the close button is clicked
+closeButton.addEventListener('click', () => {
+  historyPopup.style.display = 'none';
+});
+
+// Close history popup when clicked outside
+window.addEventListener('click', (event) => {
+  if (event.target === historyPopup) {
+    historyPopup.style.display = 'none';
+  }
+});
+
+// Clear history when the "Clear History" button is clicked
+clearHistoryButton.addEventListener("click", () => {
+  resetTimes.length = 0; // Clear the resetTimes array
+  localStorage.removeItem("history"); // Remove history from local storage
+  updateDropdownContent(); // Update the dropdown content
+  successMessage.textContent = "Successfully cleared history";
+  successMessage.style.animation = "fadeOut 500s forwards";
+  setTimeout(() => {
+    successMessage.textContent = "";
+    successMessage.style.animation = "";
+  }, 5000);
+});
+
+// Update the dropdown content and history popup
+const updateDropdownContent = () => {
+  dropdownContent.innerHTML = ""; // Clear the existing dropdown content
+  historyList.innerHTML = ""; // Clear the existing history popup content
+
+  resetTimes.forEach((resetTime) => {
+    const formattedResetTime = formatTime(resetTime);
+
+    const newListItem = document.createElement("li");
+    newListItem.textContent = formattedResetTime;
+
+    const newHistoryItem = document.createElement("li");
+    newHistoryItem.textContent = formattedResetTime;
+
+    dropdownContent.appendChild(newListItem);
+    historyList.appendChild(newHistoryItem);
+  });
+};
+
+// Get the theme toggle buttons
+const lightThemeButton = document.getElementById("light-theme");
+const darkThemeButton = document.getElementById("dark-theme");
+
+// Get the body element
+const body = document.body;
+
+// Add event listeners to the theme toggle buttons
+lightThemeButton.addEventListener("click", () => {
+  // Remove the dark theme class from the body
+  body.classList.remove("dark-theme");
+});
+
+darkThemeButton.addEventListener("click", () => {
+  // Add the dark theme class to the body
+  body.classList.add("dark-theme");
+});
+
+// Check if the user has a preferred theme stored in localStorage
+const preferredTheme = localStorage.getItem("theme");
+
+// If the user has a preferred theme, set it
+if (preferredTheme) {
+  body.classList.add(preferredTheme);
+}
+
+
+
