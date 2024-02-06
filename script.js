@@ -242,7 +242,7 @@ clearHistoryButton.addEventListener("click", () => {
   setTimeout(() => {
     successMessage.textContent = "";
     successMessage.style.animation = "";
-  }, 5000);
+  }, 2000);
 });
 
 // Update the dropdown content and history popup
