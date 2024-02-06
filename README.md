@@ -7,3 +7,4 @@ Todo:
 6. Style the entire thing once all ur ideas have been made
 7. Dark theme!!
 8. Better README.md
+9. About us, who we are etc (***)
